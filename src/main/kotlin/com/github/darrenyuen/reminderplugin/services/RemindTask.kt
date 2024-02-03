@@ -10,7 +10,7 @@ import com.intellij.openapi.project.Project
 class RemindTask(private val project: Project, private val interval: Int) :Runnable {
     override fun run() {
         thisLogger().warn("$this RemindTask start interval=$interval")
-        for (i in interval downTo  0) {
+        for (i in interval downTo  1) {
             try {
                 Thread.sleep(1000 * 60)
             } catch (e: Exception) {
@@ -26,7 +26,7 @@ class RemindTask(private val project: Project, private val interval: Int) :Runna
                 "Print",
                 "Remind",
                 "It's time to have a rest",
-                NotificationType.INFORMATION
+                NotificationType.WARNING
             )
         )
 
