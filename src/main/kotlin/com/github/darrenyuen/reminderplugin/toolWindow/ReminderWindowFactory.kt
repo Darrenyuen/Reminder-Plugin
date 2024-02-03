@@ -8,6 +8,7 @@ import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
+import com.intellij.ui.GotItTooltip
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBPanel
 import com.intellij.ui.content.ContentFactory
@@ -16,10 +17,6 @@ import javax.swing.JFormattedTextField
 
 
 class ReminderWindowFactory : ToolWindowFactory {
-
-    init {
-        thisLogger().warn("ReminderWindowFactory Don't forget to remove all non-needed sample code files with their corresponding registration entries in `plugin.xml`.")
-    }
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val myToolWindow = ReminderWindow(toolWindow)
@@ -36,18 +33,6 @@ class ReminderWindowFactory : ToolWindowFactory {
 
         fun getContent() = JBPanel<JBPanel<*>>().apply {
             val label = JBLabel(ReminderBundle.message("RemindIntervalTime"))
-//            val format: NumberFormat = NumberFormat.getInstance()
-//            val field = NumberFormatter(format).apply {
-//                valueClass = Int::class.java
-//                setMinimum(0)
-//                setMaximum(Int.MAX_VALUE)
-//                allowsInvalid = true
-//                commitsOnValidEdit = true
-//            }.run {
-//                JFormattedTextField(this).apply {
-//                    columns = 5
-//                }
-//            }
 
             val field = JFormattedTextField(this).apply {
                 columns = 5
@@ -62,9 +47,17 @@ class ReminderWindowFactory : ToolWindowFactory {
                     if (value > 0) {
                         thisLogger().warn("remind interval time is $value")
                         persistentService.remindIntervalTime = value
+                        service.startRemindTask(value)
+                        GotItTooltip( "ide.features.trainer.confirm","Reset Success!").show(this, GotItTooltip.BOTTOM_MIDDLE)
                     } else {
                         thisLogger().warn("remind interval time is invalid")
                     }
+                }
+            })
+            add(JButton(ReminderBundle.message("Cancel")).apply {
+                addActionListener {
+                    service.cancelAllRemindTask()
+                    GotItTooltip( "ide.features.trainer.cancel","Cancel Success!").show(this, GotItTooltip.BOTTOM_MIDDLE)
                 }
             })
         }
