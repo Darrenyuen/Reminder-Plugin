@@ -21,14 +21,7 @@ class RemindTask(private val project: Project, private val interval: Int) :Runna
             }
         }
         thisLogger().warn("$this RemindTask finish")
-        Notifications.Bus.notify(
-            Notification(
-                "Print",
-                "Remind",
-                "It's time to have a rest",
-                NotificationType.WARNING
-            )
-        )
+        RemindNotify.showRemindNotify()
 
         project.service<ReminderProjectService>().startRemindTask(interval)
     }
