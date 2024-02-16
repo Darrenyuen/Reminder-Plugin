@@ -27,7 +27,7 @@ dependencies {
     println("debug kotlin version is ${libs.plugins.kotlin}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.7.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.0")
 
 }
 
